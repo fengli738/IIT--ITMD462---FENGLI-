@@ -10,9 +10,3 @@ $(".relevant p:nth-child(7)").css("background-color", "orange");
 
 
 
-
-
-function fizzbuzz(){
-	var number;
-	number = prompt ("please enter a number");
-}
