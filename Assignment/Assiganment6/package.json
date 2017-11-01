@@ -1,7 +1,16 @@
 {
-  "name": "Assignment6",
-  "description": "To use node add reminders to server",
+  "name": "Assignment7",
+  "version": "0.0.1",
+  "description": "Node for the bookstore",
   "main": "server.js",
-  "version": "1.00",
-  "made by" : "Feng Li",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "Feng Li",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1"
+  }
 }
