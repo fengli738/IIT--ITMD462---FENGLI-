@@ -12,8 +12,8 @@ app.listen(3000, function(){
 // get userid
 app.get('/users/:userid', function(req, res){
 	var inputid = req.params.userid;
-	var place = inputid-1
-	if(!users[place]){
+	var idplace = inputid-1
+	if(!users[idplace]){
 		res.status(404);
 		res.json({'Notice' : 'userid can not be found' + inputid});
 	}
