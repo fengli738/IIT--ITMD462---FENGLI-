@@ -6,8 +6,8 @@ var users = [ ];
 var reminders = [ ];
 app.use(bodyParser.json());
 //console log 
-app.listen(3000, function(){
-	console.log('app is running on the port 3000');
+app.listen(1337, function(){
+	console.log('app is running on the port 1337');
 });
 // get userid
 app.get('/users/:userid', function(req, res){
