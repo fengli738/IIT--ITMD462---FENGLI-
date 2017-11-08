@@ -1,0 +1,16 @@
+{
+  "name": "Assignment7",
+  "version": "0.0.1",
+  "description": "Node for the bookstore",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "Feng Li",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1"
+  }
+}
