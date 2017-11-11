@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>User Rminders</title>
+</head>
+
+<body>
+  <header>
+    <h1>User Reminders</h1>
+  </header>
+
+  <main>
+    <nav>
+      <button id="default" class="tablinks" onclick="openCity(event, 'Add')">Add</button>
+      <button class="tablinks" onclick="openCity(event, 'Find')">Find</button>
+      <button class="tablinks" onclick="openCity(event, 'Remove')">Remove</button>
+    </nav>
+
+    <div id="Add" class="tabelement">
+      <div  id="addUser">
+        <h4>Add a New User: </h4>
+        <p>Name: </p> <input type="text" class="name input" placeholder="Name" />
+        <p>Email: </p> <input type="text" class="email input" placeholder="Email" /><br>
+        <button>Add</button>
+      </div>
+
+      <div role="tabpanel" id="addReminder">
+        <h4>Add Reminder: </h4>
+        <p>User Id: </p> <input type="text" class="userid input" placeholder="User ID" />
+        <p>Title:</p> <input type="text" class="title input" placeholder="Title" />
+        <p>Description:</p> <input type="text" class="description input" placeholder="Description" /><br>
+        <button>Add</button>
+      </div>
+    </div>
+
+    <div id="Find" class="tabelement">
+      <div id="findUser">
+        <h4>Find User:</h4>
+        <p>User Id: </p> <input type="text" class="userid input" placeholder="User ID" /><br>
+        <button>Find</button>
+      </div>
+
+      <div id="findReminder">
+        <h4>Find Reminder</h4>
+        <p>User Id:</p> <input type="text" class="userid input" placeholder="User ID" />
+        <p>Reminder Id:</p> <input type="text" class="reminderid input" pattern="Reminder ID" /><br>
+        <button>Find</button>
+      </div>
+
+      <div id="findAllreminder">
+        <h4>Find all Allreminder: </h4>
+        <p>User Id:</p> <input type="text" class="userid input" placeholder="User ID" /><br>
+        <button>Find</button>
+      </div>
+    </div>
+
+    <div id="Remove" class="tabelement">
+      <div id="RemoveUser">
+        <h4>Remove User: </h4>
+        <p>User Id:</p> <input type="text" class="userid input" placeholder="User ID" /><br>
+        <button>Remove</button>
+      </div>
+
+      <div id="RemoveAllreminder">
+        <h4>Remove All Allreminder: </h4>
+        <p>User Id:</p> <input type="text" class="userid input" placeholder="User Id" /><br>
+        <button>Remove</button>
+      </div>
+
+      <div id="RemoveReminder">
+        <h4>Remove Reminder: </h4>
+        <p>User Id:</p> <input type="text" class="userid input" placeholder="User ID" />
+        <p>Reminder Id:</p> <input type="text" class="reminderid input" placeholder="Reminder Id" /><br>
+        <button>Remove</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="screenout"></div>
+</main>
+
+<script>
+function openCity(evt, ccc) {
+  var i, tabelement, tablinks;
+  tabelement = document.getElementsByClassName("tabelement");
+  for (i = 0; i < tabelement.length; i++) {
+    tabelement[i].style.screenout = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(ccc).style.screenout = "block";
+  evt.currentTarget.className += " active";
+}
+document.getElementById("default").click();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="aoo.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</body>
+</html>
