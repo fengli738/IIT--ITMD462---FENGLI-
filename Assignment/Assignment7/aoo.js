@@ -1,174 +1,137 @@
-(document).ready(function() {
+$(document).ready(function() {
   "use strict";
-  //adds json content type to request
   $.ajaxSetup({
     contentType: "application/json; charset=utf-8"
   });
 
-  //calls get /usersu
-$('#addUser button').on('click', function(){
-  var $name = $('.name').val();
-  var $email = $('.email').val();
-  $('.name').val('');
-  $('.email').val('');
+  //Add a new user
+  $("#addUser button").on("click", function() {
+    var $name = $(".name").val();
+    var $email = $(".email").val();
+    $(".name").val("");
+    $(".email").val("");
 
-  var newUser = {
-    'user' : {
-      'name' : $name,
-      'email' : $email
-    }
-  };
-  $.ajax({
-      url: "/users/",
-      type: "POST",
-      data: JSON.stringify(newUser),
-      contentType: "application/json",
-      success: function(req) {
-        var $screenout = $("<p>");
-        $screenout.text("Id: " + req.id);
-        $(".screenout").html($screenout);
-      }
+    var newUser =   {'user' : {
+      "name" : $name,
+      "email" : $email
+    }};
+    $.post("/users", JSON.stringify(newUser) , function(req, res){
+      var $screenout = $("<p>");
+      $screenout.text("Id: " + req.id);
+      $(".screenout").html($screenout);
+
+    }, "json");
+  });
+
+  //Add a new reminder to a user
+  $("#addReminder button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+    var $title = $(".title").val();
+    $(".title").val("");
+    var $description = $(".description").val();
+    $(".description").val("");
+
+    var newReminder  =   {"reminder" : {
+      "title" : $title,
+      "description" : $description
+    }};
+    $.post("/users/" + $uid + "/reminders", JSON.stringify(newReminder) , function(req, res){
+      var $screenout = $("<p>");
+      $screenout.text("Id: " + req.id);
+      $(".screenout").html($screenout);
     });
-}); 
-
-
-$('#addRemind button').on('click' function{
-  var $userid = $('.userid').val();
-  var $title = $('.title').val();
-  var $description = $('.description').val();
-  $('.userid').val('');
-  $('.title').val('');
-  $('.description').val('');
-
-  var newReminder = {
-    'reminder' : {
-      'title' : $title,
-      'description' : $description
-    }
-  };
-  $.ajax({
-      url: "/users/" + $userid + "/Allreminder",
-      type: "POST",
-      data: JSON.stringify(newReminder),
-      contentType: "application/json",
-      success: function(req) {
-        var $screenout = $("<p>");
-        $screenout.text("Id: " + req.id);
-        $(".screenout").html($screenout);
-      }
   });
-});
 
-$('findUser button').on('click', function(){
-  var $userid = $('.userid').val();
-  $('.userid').val('');
-
-  $.ajax({
-    url: '/users' + $userid
-    type : 'GET',
-    data :'{}',
-    contentType: 'application/json',
-    success: function(req){
-      function(data){
-        var $screenout = $('<p>');
-        $screenout.text('Name :' + data.name + 'Email :' + data.email);
-        $(".screenout").html($screenout);
-      }
-    }
+  $("#findUser button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+    $.get("/users/" + $uid, function(data){
+      var $screenout = $("<p>");
+      $screenout.text("Name: " + data.name + " Email: " + data.email);
+      $(".screenout").html($screenout);
+    });
   });
-});
 
-$('findReminder button').on('click', function(){
-  var $userid = $('.userid').val();
-  var $reminderid = $('.reminderid').val();
-  $('.userid').val('');
-  $('.reminderid').val('');
+  $("#findReminder button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+    var $rid = $(".reminderid").val();
+    $(".reminderid").val("");
+    $.get("/users/" + $uid + "/reminders/" + $rid, function(data){
+      var $screenout = $("<p>");
+      $screenout.text("Title: " + data.title + " Description: " + data.description + " Created: " + data.created);
+      $(".screenout").html($screenout);
+    });
+  });
 
-  $.ajax({
-      url: "/users/" + $userid + "/reminders" + $reminderid,
-      type: "GET",
+  //Find and screenout all reminders for a user
+  $("#findAllreminder button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+
+    $.get("/users/" + $uid + "/reminders", function(data){
+      data.forEach(function (des){
+        var $screenout = $("<li>");
+        $screenout.text("Title: " + des.title + " Description: " + des.description + " Created: " + des.created);
+        $(".screenout").append($screenout);
+      });
+    });
+  });
+
+  //Delete a user
+  $("#deleteUser button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+
+    $.ajax({
+      url: "/users/" + $uid,
+      type: "DELETE",
       data: "{}",
       contentType: "application/json",
       success: function(req) {
-        function(data){
-          var $screenout = $("<p>");
-          $screenout.text("Title: " + data.title + " Description: " + data.description + " Created: " + data.created);
-          $(".screenout").html($screenout);
-        }
+        var $screenout = $("<p>");
+        $screenout.text("User has been deleted");
+        $(".screenout").html($screenout);
       }
     });
-});
+  });
 
-$('findAllreminder button').on('click', function(){
-  var $userid = $('.userid').val();
-  $('.userid').val('');
-  $.ajax({
-      url: "/users/" + $userid + "/reminders",
-      type: "GET",
+  //Delete all reminders from a user
+  $("#deleteAllreminder button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+
+    $.ajax({
+      url: "/users/" + $uid + "/reminders",
+      type: "DELETE",
       data: "{}",
       contentType: "application/json",
       success: function(req) {
-        function(data){
-          data.forEach(function (des){
-            var $display = $("<li>");
-            $display.text("Title: " + des.title + " Description: " + des.description + " Created: " + des.created);
-            $(".display").append($display);
-          });
-        }
+        var $screenout = $("<p>");
+        $screenout.text("All reminders have been deleted.");
+        $(".screenout").html($screenout);
       }
     });
-});
+  });
 
-$('#deleteUser button').on('click', function(){
-  var $userid = $('.userid').val();
-  $('.userid').val('');
+  //Delete a reminder from a user
+  $("#deleteReminder button").on("click", function() {
+    var $uid = $(".userid").val();
+    $(".userid").val("");
+    var $rid = $(".reminderid").val();  
+    $(".reminderid").val("");
 
-  $.ajax({
-    url : '/users/' + $userid,
-    type : 'DELETE',
-    data : '{}',
-    contentType: 'application/json',
-    success: function(req){
-      var $screenout = $('<p>');
-      $screenout.text('User Deleted.');
-      $('.display').html($display);
-    }
+    $.ajax({
+      url: "/users/" + $uid + "/reminders/" + $rid,
+      type: "DELETE",
+      data: "{}",
+      contentType: "application/json",
+      success: function(req) {
+        var $screenout = $("<p>");
+        $screenout.text("Reminder has been deleted");
+        $(".screenout").html($screenout);
+      }
+    });
   });
 });
-
-$('#deleteReminder button').on('click', function(){
-  var $userid = $('.userid').val();
-  var $reminderid = $('.reminderid').val();
-  $('.userid').val('');
-  $('.reminderid').val('');
-
-  $.ajax({
-    url : '/users/' + $userid + '/reminders' + $reminderid,
-    type: 'DELETE',
-    data: '{}',
-    contentType:'application/json',
-    success : function(req){
-      var $screenout = $('<p>');
-      $screenout.text('This reminder is deleted');
-      $('.screenout').html($display);
-    }
-  });
-});
-$('#deleteAllreminder button').on('click', function(){
-  var $userid = $('.userid').val();
-  $('.userid').val();
-
-  $.ajax({
-    url: '/users/' + $userid + '/reminders', 
-    type:'DELETE',
-    data:'{}',
-    contentType:'application/json',
-    success: function(req){
-      var $screenout = $('<p>');
-      $screenout.text('All reminder in this id deleted.');
-      $('.screenout').html($screenout);
-    }
-  });
-});
-});
-
