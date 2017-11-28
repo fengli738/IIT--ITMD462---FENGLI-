@@ -1,0 +1,83 @@
+<!--
+Feng Li webpage
+index.html
+Assignment 7
+webpage resource:
+https://www.w3schools.com/howto/howto_js_tabs.asp
+https://getbootstrap.com/docs/3.3/javascript/
+!-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Reminder Application</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <header class="container-fluid">
+	  <h1>User Reminders</h1>
+  </header>
+
+  <main>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active clear">|<a href="#adduser" aria-controls="adduser" role="tab" data-toggle="tab" class="clear">Add User</a>|</li>
+      <li><a href="#searchuser" aria-controls="searchuser" role="tab" data-toggle="tab" class="clear">Search User</a>|</li>
+      <li><a href="#deleteuser" aria-controls="deleteuser" role="tab" data-toggle="tab" class="clear">Delete User</a>|</li>
+      <li><a href="#addreminder" aria-controls="addreminder" role="tab" data-toggle="tab" class="clear">Add Reminder</a>|</li>
+      <li><a href="#viewreminders" aria-controls="viewreminders" role="tab" data-toggle="tab" class="clear">View Reminders</a>|</li>
+      <li><a href="#searchreminder" aria-controls="searchreminder" role="tab" data-toggle="tab" class="clear">Search Reminder</a>|</li>
+      <li><a href="#deletereminder" aria-controls="deletereminder" role="tab" data-toggle="tab" class="clear">Delete Reminder</a>|</li>
+      <li><a href="#deleteall" aria-controls="deleteall" role="tab" data-toggle="tab"  class="clear">Delete All Reminders</a>|</li>
+    </ul>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="adduser">
+        Name:<input type="text" placeholder="Jane Doe" class="addname input"/>
+        Email:<input type="text" placeholder="jdoe@example.com" class="addemail input"/>
+        <button>Add User</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="searchuser">
+        User Id:<input type="text" placeholder="1" class="searchuser input"/>
+        <button>Search</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="deleteuser">
+        User Id:<input type="text" placeholder="1" class="deluserid input"/>
+        <button>Delete</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="addreminder">
+        Title:<input type="text" placeholder="Do homework" class="addtitle input"/>
+        Description:<input type="text" placeholder="Start with math" class="adddes input"/>
+        User Id:<input type="text" placeholder="1" class="userid input"/>
+        <button>Add</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="viewreminders">
+        User Id:<input type="text" placeholder="1" class="viewreminder input"/>
+        <button>View</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="searchreminder">
+        User Id:<input type="text" placeholder="1" class="search input" />
+        Reminder Id:<input type="text" placeholder="3" class="searchrem input"/>
+        <button>Search</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="deletereminder">
+        User Id:<input type="text" placeholder="1" class="deluser input" />
+        Reminder Id:<input type="text" placeholder="3" class="delremid input"/>
+        <button>Delete</button>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="deleteall">
+        User Id:<input type="text" placeholder="1" class="delall input"/>
+        <button>Delete</button>
+      </div>
+    </div>
+    <div class="display"></div>
+  </main>
+
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js "></script>
+  <script src="app.js"></script>
+</body>
+</html>

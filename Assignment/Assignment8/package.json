@@ -1,0 +1,16 @@
+{
+  "name": "Assignment6",
+  "version": "0.0.1",
+  "description": "Usign node to add reminders and ids",
+  "main": "server.js",
+  "scripts": {
+    "test": "test.js ",
+    "start": "npm install then node server.js"
+  },
+  "author": "Feng Li",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
