@@ -114,10 +114,6 @@ $(document).ready(function() {
     });
   }
 
-  $(".clear").on("click", function() {
-    $(".display").html("");
-    $(".input").val("");
-  });
 
   $("#viewusers button").on("click", function() {
     viewusers();
@@ -138,6 +134,13 @@ $(document).ready(function() {
     $field1.val("");
     $field2.val("");
     adduser($name, $email);
+  });
+
+  $("#deleteuser button").on("click", function() {
+    var $field1 = $(".deluserid");
+    var $iduser = $field1.val();
+    $field1.val("");
+    deleteuser($iduser);
   });
 
   $("#viewreminders button").on("click", function() {
@@ -180,17 +183,15 @@ $(document).ready(function() {
     deletereminder($iduser, $idrem);
   });
 
-  $("#deleteuser button").on("click", function() {
-    var $field1 = $(".deluserid");
-    var $iduser = $field1.val();
-    $field1.val("");
-    deleteuser($iduser);
-  });
-
   $("#deleteall button").on("click", function() {
     var $field1 = $(".delall");
     var $iduser = $field1.val();
     $field1.val("");
     deletereminders($iduser);
+  });
+
+  $(".clear").on("click", function() {
+    $(".display").html("");
+    $(".input").val("");
   });
 });
