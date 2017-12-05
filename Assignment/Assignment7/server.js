@@ -1,131 +1,145 @@
 const express = require('express')
+const http = require('http')
 const bodyParser = require('body-parser')
 const app = express()
 
-var users = [ ];
-var reminders = [ ];
 app.use(bodyParser.json());
-//console log 
-app.listen(3000, function(){
-	console.log('app is running on the port 3000');
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers",
+  "Origin, X-Requested-With,  X-HTTP-Method-Override, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+  next();
 });
-// get userid
-app.get('/users/:userid', function(req, res){
-	var inputid = req.params.userid;
-	var idplace = inputid-1
-	if(!users[idplace]){
-		res.status(404);
-		res.json({'Notice' : 'userid can not be found' + inputid});
-	}
-	else {
-		res.status(200);
-		res.json(users[idplace].user);
-	}
-});
-//get reminders
-app.get('/users/:userid/reminders', function(req, res){
-	var inputid = req.params.userid;
-	var idplace = inputid - 1;
-	if(!users[idplace]){
-		res.status(404);
-		res.json({'Notice' : 'userid not found' + inputid});
-	}
-	else {
-		var reminderPlace = users[idplace].reminders.forEach(function(getStuff){
-			eachReminder.push(getStuff.reminders)
-		});
-		res.status(200);
-		res.json(eachReminder);
-	}
-});
-//get reminderID
-app.get('/users/:userid/reminders/reminderid', function (req, res){
-	var inputid = req.params.userid;
-	var idplace = inputid - 1;
-	var noteid = req.params.reminderid;
-	var noteplace = noteid - 1;
-	if(!users[idplace].reminders[noteplace]){
-		res.status(404);
-		res.json({'Notice':"reminderid not found" + noteid});
-	}
-	else{
-		res.status(200);
-		res.json(users[idplace].reminders[noteplace].reminder);
-		}
-	});
-// post users
- app.post('/users', function(req, res){
- 	var inputid = {"id" : users.length + 1};
- 	var newUser = req.body;
- 	newUser.id = inputid.id;
- 	newUser.reminders = [ ];
- 	users.push(newUser);
- 	res.status(200);
- 	res.json(inputid);
- });
- //post reminders
- app.post('/users/:userid/reminders', function(req, res){
- 	var inputid = req.params.userid;
- 	var idplace = inputid-1;
- 	var reminders = [];
- 	var date = new Date();
- 	if(!users[idplace]){
- 		res.status(404);
- 		res.json({'Notice' : "userid not found" + inputid});
- 	}
- 	else{
- 		var noteid = {"id" : users[idplace].reminders.length + 1};
- 		var newReminder = req.body.newReminder;
- 		newReminder.noteid = noteid.noteid;
- 		newReminder.reminder.created = date;
- 		users[idplace].reminders.push(newReminder);
- 		res.status(200);
- 		res.json(noteid); 
- 	}
 
- });
- //delete userid
- app.delete('/users/:userid', function (req, res){
- 	var inputid = req.params.userid;
- 	var idplace = inputid - 1;
- 	if(!users[idplace]){
- 		res.status(404);
- 		res.json({'Notice' : 'userid not found' + userid});
-    }
-    else {
-    	delete users[inputid];
-    	res.send('204 no content');
-    	res.end();
-    }
- });
- //delete reminders
- app.delete('/users/:userid/reminders', function(req, res){
- 	var inputid = req.params.userid;
- 	var idplace = inputid - 1;
- 	if(!users[idplace]){
- 		res.status(404);
- 		res.json({'Notice' : 'userid not found' + userid});
-    }
-    else{
-    	users[idplace].reminders = [] ;
-    	res.send('204 no content');
-    	res.end();
-    }
- });
- // delete reminderid
- app.delete('/users/:userid/reminders/reminderid', function(req, res){
- 	var inputid = req.params.userid;
- 	var idplace = inputid-1;
- 	var noteid = req.params.reminderid;
- 	var noteplace = noteid-1;
- 	if(!users[idplace].reminders[noteplace]){
- 		res.status(404);
- 		res.json({'Notice' : 'reminderid not found' + noteid});
- 	}
- 	else{
- 		delete users[idplace].reminders[noteplace] ;
- 		res.send('204 no content');
- 		res.end();
- 	}
+//array for users
+var users = [ ];
 
- });
+//body parser to parse json
+app.use(bodyParser.json());
+
+//App running on port 3000
+app.listen(3000, function () {
+  console.log('Reminder app Running on port 3000')
+});
+
+
+app.get('/users/:userId', function (req, res) {
+  var inputId = req.params.userId;
+  var userPlace = inputId - 1;
+  if(!users[userPlace]){
+    res.status(404);
+    res.json({"message" : "userId not found: " + inputId});
+  }
+  else {
+    res.status(200);
+    res.json(users[userPlace].user);
+  }
+});
+
+app.get('/users/:userId/reminders', function (req, res) {
+  var inputId = req.params.userId;
+  var userPlace = inputId - 1;
+  if(!users[userPlace]){
+    res.status(404);
+    res.json({"message" : "userId not found: " + inputId});
+  }
+  else {
+    var remindPlace = users[userPlace].reminders.length - 1;
+    var eachReminder = []; users[userPlace].reminders.forEach(function(getStuff) {
+      eachReminder.push(getStuff.reminder)
+    });
+    res.status(200);
+    res.json(eachReminder);
+  }
+});
+
+app.get('/users/:userId/reminders/:reminderId', function (req, res) {
+  var userID = req.params.userId;
+  var remindID = req.params.reminderId;
+  var userPlace = userID - 1;
+  var remindPlace = remindID - 1;
+  if(!users[userPlace].reminders[remindPlace]){
+    res.status(404);
+    res.json({"message" : "reminderId not found: " + remindID});
+  }
+  else {
+    res.status(200);
+    res.json(users[userPlace].reminders[remindPlace].reminder);
+  }
+});
+
+//post commands
+app.post('/users', function (req, res) {
+  var id = {"id" : users.length + 1};
+  var newUser = req.body;
+  newUser.id = id.id;
+  newUser.reminders = [ ];
+  users.push(newUser);
+  res.status(200);
+  res.json(id);
+});
+
+app.post('/users/:userId/reminders', function (req, res) {
+  var inputId = req.params.userId;
+  var userPlace = inputId - 1;
+  var date = new Date();
+  if(!users[userPlace]){
+    res.status(404);
+    res.json({"message" : "userId not found: " + inputId});
+  }
+  else {
+    var id = {"id" : users[userPlace].reminders.length + 1};
+    var newRemind = req.body;
+    newRemind.id = id.id;
+    newRemind.reminder.created = date;
+    users[userPlace].reminders.push(newRemind);
+    res.status(200);
+    res.json(id);
+  }
+});
+
+//delete commands
+app.delete('/users/:userId', function (req, res) {
+  var userID = req.params.userId;
+  var userPlace = userID - 1;
+  if(!users[userPlace]){
+    res.status(404);
+    res.json({"Message" : "userId not found: " + userID})
+  }
+  else {
+    delete users[userPlace];
+    
+    res.send("204 No Content");
+  }
+});
+
+app.delete('/users/:userId/reminders', function (req, res) {
+  var userID = req.params.userId;
+  var userPlace = userID - 1;
+  if(!users[userPlace]){
+    res.status(404)
+    res.json({"Message" : "userId not found: " + userID})
+  }
+  else {
+    users[userPlace].reminders = [ ];
+   
+    res.send("204 No Content");
+  }
+});
+
+app.delete('/users/:userId/reminders/:reminderId', function (req, res) {
+  var userID = req.params.userId;
+  var remindID = req.params.reminderId;
+  var userPlace = userID - 1;
+  var remindPlace = remindID - 1;
+  if(!users[userPlace].reminders[remindPlace]){
+    res.status(404);
+    res.json({"Message" : "reminderId not found: " + remindID})
+  }
+  else {
+    delete users[userPlace].reminders[remindPlace];
+    
+    res.send("204 No Content");
+  }
+});
